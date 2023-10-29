@@ -1,10 +1,10 @@
 export type UserTypes = {
-    name: string,
+    name?: string,
     email: string,
     password: string
 }
 
-export type intialStateTypes = {
+export type intialStateUserTypes = {
     user: {
 
         isLoading: boolean,

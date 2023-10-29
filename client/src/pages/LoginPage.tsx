@@ -1,15 +1,12 @@
-import { useState } from "react";
-import { FiUser } from "react-icons/fi";
-import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { ThunkDispatch } from "@reduxjs/toolkit";
-import { signup } from "../redux/features/userSlice";
-import { intialStateUserTypes } from "../types/index";
+import { AiOutlineLock, AiOutlineMail } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
-
-const SignupPage = () => {
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { intialStateUserTypes } from "../types";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { login } from "../redux/features/userSlice";
+const LoginPage = () => {
   let [input, setInput] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -28,30 +25,19 @@ const SignupPage = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(signup(input));
+    dispatch(login(input));
+    console.log(input);
   };
 
   return (
     <main className=' w-full h-screen flex items-center justify-center flex-col px-5 md:px-20'>
       <h1 className=' text-3xl md:text-4xl capitalize font-semibold text-center m-5 font-mono'>
-        Sign up
+        Log in
       </h1>
       <form
         onSubmit={handleSubmit}
         className='flex items-center justify-center  gap-5 flex-col'
       >
-        <div className=' w-full flex items-center justify-between gap-5 '>
-          <FiUser className=' text-2xl' />
-          <input
-            type='text'
-            placeholder='Your name'
-            className='input input-bordered w-full max-w-xs'
-            onChange={handleChange}
-            name='name'
-            value={input.name}
-            required
-          />
-        </div>
         <div className=' w-full flex items-center justify-between gap-5 '>
           <AiOutlineMail className=' text-2xl' />
           <input
@@ -83,8 +69,8 @@ const SignupPage = () => {
         </button>
       </form>
       <span className=' m-4'>
-        Already a User ?{" "}
-        <NavLink to={"/login"} className=' link-secondary underline'>
+        Don't have an account ?{" "}
+        <NavLink to={"/signup"} className=' link-secondary underline'>
           Click here
         </NavLink>{" "}
         to login
@@ -93,4 +79,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default LoginPage;

@@ -1,4 +1,4 @@
-import { HomePage, SignupPage } from "./pages";
+import { HomePage, LoginPage, SignupPage } from "./pages";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
@@ -7,6 +7,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/signup' element={<SignupPage />} />
+        <Route path='/login' element={<LoginPage />} />
       </Routes>
     </div>
   );
