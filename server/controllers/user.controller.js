@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import { comparePassword, hashPassword } from "../utils/hashingPassword.js";
 import { generateToken } from "../utils/JWT.js";
 
-
+// Signin
 export const signip = asyncHandler(async (req, res) => {
 
     const { name, email, password } = req.body;
@@ -32,7 +32,7 @@ export const signip = asyncHandler(async (req, res) => {
     res.status(201).json({ success: true, message: "User signup successfull" })
 })
 
-
+// Login
 export const login = asyncHandler(async (req, res) => {
 
     const { email, password } = req.body;
@@ -59,8 +59,14 @@ export const login = asyncHandler(async (req, res) => {
 
     const token = generateToken({ id: existingUser._id });
 
-    res.cookie("token", token, { httpOnly: true, maxAge: 60 * 60 * 24 * 5 });
+    res.cookie("token", token, { httpOnly: true, maxAge: 60 * 60 * 24 * 1000 });
 
-    res.status(200).json({ success: true, message: "User login successfull" });
+    res.status(200).json({ success: true, message: "User login successfull", "User": existingUser._id });
 
+})
+
+// Logout
+export const logout = asyncHandler(async (req, res) => {
+    res.cookie("token", "")
+    res.status(200).json({ success: true, message: "User logged out" })
 })

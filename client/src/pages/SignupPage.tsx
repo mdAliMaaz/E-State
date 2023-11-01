@@ -37,6 +37,7 @@ const SignupPage = () => {
         Sign up
       </h1>
       <form
+        content='application/json'
         onSubmit={handleSubmit}
         className='flex items-center justify-center  gap-5 flex-col'
       >

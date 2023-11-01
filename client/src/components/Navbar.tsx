@@ -1,6 +1,23 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/features/userSlice";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { intialStateUserTypes } from "../types";
 
 const Navbar = () => {
+  const user = useAuth();
+
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+  const { isLoading } = useSelector(
+    (state: intialStateUserTypes) => state.user
+  );
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <div className='navbar bg-neutral text-primary-content flex items-center justify-between w-full'>
       <NavLink to={"/"} className='btn btn-ghost  text-xl uppercase'>
@@ -32,11 +49,27 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      <div>
-        <NavLink to={"/signup"} className=' btn btn-primary'>
-          Signup
-        </NavLink>
-      </div>
+      {!user ? (
+        <div>
+          <NavLink to={"/signup"} className=' btn btn-accent btn-sm'>
+            Signup
+          </NavLink>
+        </div>
+      ) : (
+        <div>
+          <Link to={"/listing/add"} className=' btn btn-success btn-sm'>
+            Create
+          </Link>
+
+          <button
+            disabled={isLoading}
+            onClick={handleLogout}
+            className=' btn btn-error btn-sm mx-2'
+          >
+            Logout
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -38,6 +38,7 @@ export const login = createAsyncThunk("login", async (input: UserTypes) => {
 
         if (response.data.success) {
             handleSuccess(response.data.message);
+            localStorage.setItem("UserId", response.data.User)
             setTimeout(() => {
                 window.location.replace("/")
             }, 1000)
@@ -51,6 +52,28 @@ export const login = createAsyncThunk("login", async (input: UserTypes) => {
         handleError(error.response.data.message)
     }
 });
+
+export const logout = createAsyncThunk('logout', async () => {
+    try {
+        const response = await axios.post("/user/logout", {}, { withCredentials: true })
+
+
+        if (response.data.success) {
+            handleSuccess(response.data.message);
+            localStorage.removeItem("UserId")
+            setTimeout(() => {
+                window.location.replace("/login")
+            }, 1000)
+
+        }
+        else {
+            handleError(response.data.response.data.message)
+        }
+
+    } catch (error: any) {
+        handleError(error.response.data.message)
+    }
+})
 
 const userSlice = createSlice({
     name: "User",
@@ -70,6 +93,14 @@ const userSlice = createSlice({
         }).addCase(login.fulfilled, (state, action) => {
             state.isLoading = false;
         }).addCase(login.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true;
+        })
+        builder.addCase(logout.pending, (state, action) => {
+            state.isLoading = true
+        }).addCase(logout.fulfilled, (state, action) => {
+            state.isLoading = false;
+        }).addCase(logout.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true;
         })

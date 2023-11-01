@@ -12,3 +12,12 @@ export type intialStateUserTypes = {
         data: {}
     }
 }
+
+export type intialStateListingTypes = {
+    listing: {
+
+        isLoading: boolean,
+        isError: boolean,
+        data: {},
+    }
+}

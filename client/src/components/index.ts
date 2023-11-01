@@ -1,3 +1,7 @@
 import Navbar from "./Navbar";
+import ProtectedRoutes from "./ProtectedRoutes";
+import PublicRoutes from "./PublicRoutes";
 
-export { Navbar }
+
+
+export { Navbar, ProtectedRoutes, PublicRoutes }
