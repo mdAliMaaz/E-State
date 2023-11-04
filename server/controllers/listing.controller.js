@@ -52,7 +52,20 @@ export const getListings = asynchandler(async (req, res) => {
     const listings = await Listing.find();
     if (!listings.length) {
         res.status(404)
-        throw new Error("No Listings Found")
+        throw new Error("You dont have any Listings")
+    }
+
+    res.status(200).json(listings)
+
+})
+
+// Get All My Listings
+export const getMyListings = asynchandler(async (req, res) => {
+
+    const listings = await Listing.find({ user: req.user._id });
+    if (!listings.length) {
+        res.status(404)
+        throw new Error("You dont have any Listings")
     }
 
     res.status(200).json(listings)

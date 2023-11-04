@@ -7,8 +7,18 @@ import { handleError, handleSuccess } from '../../utils/notifications'
 const initialState = {
     isLoading: false,
     isError: false,
-    data: {}
+    data: {},
+    myDetails: {}
 }
+
+export const getDetails = createAsyncThunk("getDetails", async () => {
+    try {
+        const response = await axios.get("/user/getProfile", { withCredentials: true });
+        return response.data;
+    } catch (error) {
+        console.log("Unable to get profile")
+    }
+})
 
 export const signup = createAsyncThunk("signup", async (input: UserTypes) => {
     try {
@@ -75,6 +85,24 @@ export const logout = createAsyncThunk('logout', async () => {
     }
 })
 
+export const updateProfile = createAsyncThunk('updateProfile', async (formData: any) => {
+    try {
+        const response = await axios.put("/user/updateProfile", formData, { withCredentials: true })
+
+
+        if (response.data.success) {
+            handleSuccess(response.data.message);
+            setTimeout(() => {
+                window.location.replace("/")
+            }, 1000)
+        }
+        else {
+            handleError(response.data.response.data.message)
+        }
+    } catch (error: any) {
+        handleError(error.response.data.message)
+    }
+})
 const userSlice = createSlice({
     name: "User",
     initialState,
@@ -101,6 +129,23 @@ const userSlice = createSlice({
         }).addCase(logout.fulfilled, (state, action) => {
             state.isLoading = false;
         }).addCase(logout.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true; getDetails
+        })
+        builder.addCase(getDetails.pending, (state, action) => {
+            state.isLoading = true
+        }).addCase(getDetails.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.myDetails = action.payload;
+        }).addCase(getDetails.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true;
+        })
+        builder.addCase(updateProfile.pending, (state, action) => {
+            state.isLoading = true
+        }).addCase(updateProfile.fulfilled, (state, action) => {
+            state.isLoading = false;
+        }).addCase(updateProfile.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true;
         })

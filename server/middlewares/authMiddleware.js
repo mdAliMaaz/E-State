@@ -17,7 +17,7 @@ export const Protect = asyncHandler(async (req, res, next) => {
         throw new Error("Invalid token, please login")
     }
 
-    const user = await User.findById(id).select("_id name email")
+    const user = await User.findById(id).select("_id name email avatar")
 
     req.user = user;
 

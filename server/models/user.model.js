@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         require: [true, "password is required field"],
+    },
+    avatar: {
+        public_Id: String,
+        url: String
     }
 }, { timestamps: true })
 

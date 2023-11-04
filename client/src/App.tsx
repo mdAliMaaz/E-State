@@ -1,10 +1,12 @@
-import { ProtectedRoutes, PublicRoutes } from "./components";
+import { Profile, ProtectedRoutes, PublicRoutes } from "./components";
 import {
   CreateListing,
   EditListing,
   HomePage,
   LoginPage,
   SignupPage,
+  MyListingPage,
+  ListingDetailsPage,
 } from "./pages";
 
 import { Route, Routes } from "react-router-dom";
@@ -22,7 +24,10 @@ const App = () => {
         {/* Privtate Routes */}
         <Route element={<ProtectedRoutes />}>
           <Route path='/' element={<HomePage />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/myListing' element={<MyListingPage />} />
           <Route path='/listing/add' element={<CreateListing />} />
+          <Route path='/listing/:id' element={<ListingDetailsPage />} />
           <Route path='/listing/edit/:id' element={<EditListing />} />
         </Route>
       </Routes>

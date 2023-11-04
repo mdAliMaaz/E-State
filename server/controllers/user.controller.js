@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import asyncHandler from 'express-async-handler';
 import { comparePassword, hashPassword } from "../utils/hashingPassword.js";
 import { generateToken } from "../utils/JWT.js";
+import { v2 as cloudinary } from 'cloudinary';
 
 // Signin
 export const signip = asyncHandler(async (req, res) => {
@@ -69,4 +70,30 @@ export const login = asyncHandler(async (req, res) => {
 export const logout = asyncHandler(async (req, res) => {
     res.cookie("token", "")
     res.status(200).json({ success: true, message: "User logged out" })
+})
+
+
+// My profile
+export const getMyProfile = asyncHandler(async (req, res) => {
+    res.status(200).json(req.user);
+})
+
+// My profile
+export const updateProfile = asyncHandler(async (req, res) => {
+    let images = req.files;
+
+    if (req.files) {
+
+        const { public_id, secure_url } = await cloudinary.uploader.upload(images[0].path, { folder: "ESTATE/avatar" });
+        req.body.avatar = {
+            public_Id: public_id,
+            url: secure_url
+        }
+
+        await cloudinary.uploader.destroy(req.user.avatar.public_Id)
+    }
+
+    await User.findByIdAndUpdate(req.user._id, req.body);
+
+    res.status(200).json({ success: true, message: "Profile update successfull" });
 })

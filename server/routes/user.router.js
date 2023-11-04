@@ -1,9 +1,13 @@
 import express from 'express';
 
-import { login, logout, signip } from '../controllers/user.controller.js';
-
+import { getMyProfile, login, logout, signip, updateProfile } from '../controllers/user.controller.js';
+import { Protect } from '../middlewares/authMiddleware.js'
 
 const router = express.Router()
+
+router.route("/getProfile").get(Protect
+    , getMyProfile);
+router.route("/updateProfile").put(Protect, updateProfile);
 
 router.route("/signup").post(signip);
 

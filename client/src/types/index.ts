@@ -9,7 +9,16 @@ export type intialStateUserTypes = {
 
         isLoading: boolean,
         isError: boolean,
-        data: {}
+        data: {},
+        myDetails: {
+            name: string,
+            email: string,
+            _id: string
+            avatar: {
+                public_Id: string,
+                url: string
+            }
+        }
     }
 }
 
@@ -19,5 +28,27 @@ export type intialStateListingTypes = {
         isLoading: boolean,
         isError: boolean,
         data: {},
+        allListings: [],
+        myListing: []
+
     }
+}
+
+export type myListing = {
+    address: string
+    bathrooms: number
+    bedrooms: number
+    createdAt: string
+    description: string
+    furnished: boolean
+    images: [{ public_Id: string, url: string }]
+    name: string
+    offer: string
+    parking: boolean
+    regularPrice: number
+    type: string
+    updatedAt: string
+    user: string
+    __v: number
+    _id: string
 }

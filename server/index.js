@@ -37,6 +37,8 @@ cloudinary.config({
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRECT
 });
+
+
 app.use(upload.array("images"))
 
 // routes
